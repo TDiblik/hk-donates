@@ -10,6 +10,8 @@ interface Props {
 
 const CategorySelect = (props: Props) => {
   const [selected, setSelected] = useState<boolean>(false);
+  const [categoryName, setCategoryName] = useState<string>("");
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -20,7 +22,10 @@ const CategorySelect = (props: Props) => {
           {props.categories.map((category: category) => {
             return (
               <div
-                onClick={() => setSelected(true)}
+                onClick={() => {
+                  setSelected(true);
+                  setCategoryName(category.name);
+                }}
                 className={styles.categoryItem}
               >
                 <div className={styles.categoryItemWrapper}>
@@ -33,7 +38,9 @@ const CategorySelect = (props: Props) => {
           })}
         </div>
         <div className={styles.categoryPreview}>
-          <p className={styles.blueParagraph}>{">‘category.name’"}</p>
+          <p className={styles.blueParagraph}>
+            {categoryName ?? "category.name"}
+          </p>
           {selected && (
             <table border={1}>
               <thead>
