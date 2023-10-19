@@ -20,7 +20,7 @@ export function get_user() {
 }
 
 export function is_user_logged_in() {
-  return get_user() == null;
+  return get_user() != null;
 }
 
 export function set_user(user: UserApiResponse) {
