@@ -22,6 +22,10 @@
   gap: 2.12rem;
 }
 
+.confirmButton {
+  margin-top: 2.12rem;
+}
+
 @media (max-width: 1080px) {
   .wrapper {
     width: 100%;

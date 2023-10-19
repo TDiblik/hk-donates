@@ -32,7 +32,11 @@ const FillDonation = () => {
     <div className={styles.container}>
       <div className={styles.numberInputContainer}>
         <p>Výše příspěvku</p>
-        <NumberInput value={donationAmount} onChange={(e) => null}>
+        <NumberInput
+          min={0}
+          value={isNaN(donationAmount) ? 0 : donationAmount}
+          onChange={(string, number) => setDonationAmount(number)}
+        >
           <NumberInputField background={"white"} />
           <NumberInputStepper>
             <NumberIncrementStepper />

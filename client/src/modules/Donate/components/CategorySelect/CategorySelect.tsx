@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Checkbox } from "@chakra-ui/react";
 import { category } from "../../types";
 import styles from "./CategorySelect.module.css";
@@ -8,6 +9,7 @@ interface Props {
 }
 
 const CategorySelect = (props: Props) => {
+  const [selected, setSelected] = useState<boolean>(false);
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -17,7 +19,10 @@ const CategorySelect = (props: Props) => {
         <div className={styles.categorySidebar}>
           {props.categories.map((category: category) => {
             return (
-              <div className={styles.categoryItem}>
+              <div
+                onClick={() => setSelected(true)}
+                className={styles.categoryItem}
+              >
                 <div className={styles.categoryItemWrapper}>
                   <Checkbox colorScheme="red" defaultChecked></Checkbox>
                   <p>{category.name}</p>
@@ -29,32 +34,38 @@ const CategorySelect = (props: Props) => {
         </div>
         <div className={styles.categoryPreview}>
           <p className={styles.blueParagraph}>{">‘category.name’"}</p>
-          <table border={1}>
-            <thead>
-              <tr>
-                <th></th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {subCategoriesMock.map((subCategory, index) => {
-                return (
-                  <tr key={index}>
-                    <td>
-                      <Checkbox colorScheme="red" defaultChecked></Checkbox>
-                    </td>
-                    <td>{subCategory.heading}</td>
-                    <td>{subCategory.description}</td>
-                    <td>
-                      <button>Action</button>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+          {selected && (
+            <table border={1}>
+              <thead>
+                <tr className={styles.tableRow}>
+                  <th></th>
+                  <th className={styles.tableHeading}>Name</th>
+                  <th className={styles.tableHeading}>Description</th>
+                  <th className={styles.tableHeading}>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {subCategoriesMock.map((subCategory, index) => {
+                  return (
+                    <tr key={index} className={styles.tableRow}>
+                      <td className={styles.tableData}>
+                        <Checkbox colorScheme="red" defaultChecked></Checkbox>
+                      </td>
+                      <td className={styles.rowHeading}>
+                        {subCategory.heading}
+                      </td>
+                      <td>{subCategory.description}</td>
+                      <td>
+                        <button className={styles.detailButton}>
+                          detail...
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          )}
         </div>
       </div>
     </div>
