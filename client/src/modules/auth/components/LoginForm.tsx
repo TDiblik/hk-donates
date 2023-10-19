@@ -2,20 +2,14 @@ import { useState } from "react";
 import { Button, Radio, RadioGroup, Stack } from "@chakra-ui/react";
 import TextField from "./TextField";
 import { LoginProps, RegisterProps } from "./types";
+import { useNavigate } from "react-router-dom";
 
 import styles from "./LoginForm.module.css";
 
 const LoginForm = () => {
-  const [formData, setFormData] = useState<RegisterProps>({
+  const [formData, setFormData] = useState<LoginProps>({
     email: "",
     password: "",
-    passwordCheck: "",
-    individualTitle: "",
-    individualFirstName: "",
-    individualSurname: "",
-    individualTitleAfterName: "",
-    companyName: "",
-    companyIco: "",
   });
 
   const handleSubmit = async () => {
@@ -23,6 +17,9 @@ const LoginForm = () => {
 
     const res = fetch("/api/v1/public/auth/login", {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
         email: formData.email,
         password: formData.password,
@@ -38,6 +35,8 @@ const LoginForm = () => {
       [fieldName]: value,
     }));
   };
+
+  const navigate = useNavigate();
 
   return (
     <div className={styles.container}>
@@ -56,7 +55,7 @@ const LoginForm = () => {
             setValue={(value) => updateField("password", value)}
           />
           <div className={styles.formFooter}>
-            <Button onClick={handleSubmit} variant="outline">
+            <Button onClick={() => navigate("/")} variant="outline">
               Zpět
             </Button>
             <Button
