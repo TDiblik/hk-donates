@@ -1,5 +1,6 @@
 const sqlite3 = require("sqlite3").verbose();
 const db = new sqlite3.Database("./db.sqlite");
+import {open} from "sqlite";
 
 export function db_init() {
   db.serialize(() => {
@@ -8,15 +9,19 @@ export function db_init() {
            id INTEGER PRIMARY KEY AUTOINCREMENT,
            email TEXT NOT NULL,
            password TEXT NOT NULL,
-           type INTEGER NOT NULL,
-           idividual_title_before_name TEXT,
-           idividual_name TEXT,
-           idividual_surname TEXT,
-           idividual_title_after_name TEXT,
+           is_company BOOLEAN NOT NULL,
+           individual_title_before_name TEXT,
+           individual_name TEXT,
+           individual_surname TEXT,
+           individual_title_after_name TEXT,
            company_name TEXT,
            company_ico TEXT
         );`);
   });
 }
 
-export default db;
+export const get_db_conn = async () =>
+  await open({
+    filename: "./db.sqlite",
+    driver: sqlite3.Database,
+  });

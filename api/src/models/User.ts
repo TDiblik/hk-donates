@@ -2,7 +2,7 @@ export interface User {
   id: number;
   email: string;
   password: string;
-  type: UserType;
+  is_company: boolean;
 }
 
 export interface IndividualUser extends User {
@@ -15,9 +15,4 @@ export interface IndividualUser extends User {
 export interface CompanyUser extends User {
   company_name: string;
   company_ico: string;
-}
-
-export enum UserType {
-  individual,
-  company,
 }
