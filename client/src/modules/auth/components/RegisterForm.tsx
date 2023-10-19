@@ -159,7 +159,7 @@ const RegisterForm = () => {
             setValue={(value) => updateField("passwordCheck", value)}
           />
           <p style={{ fontSize: "12px", padding: "10px", textAlign: "center" }}>
-            Již máte účet?
+            Již máte účet?{" "}
             <span className={styles.fakeLink} onClick={() => navigate("/login")}>
               Přihlašte se.
             </span>

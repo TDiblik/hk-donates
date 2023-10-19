@@ -57,7 +57,7 @@ const LoginForm = () => {
             setValue={(value) => updateField("password", value)}
           />
           <p style={{ fontSize: "12px", padding: "10px", textAlign: "center" }}>
-            Nemáte účet?
+            Nemáte účet?{" "}
             <span className={styles.fakeLink} onClick={() => navigate("/register")}>
               Zaregistrujte se.
             </span>
