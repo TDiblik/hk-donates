@@ -5,7 +5,8 @@
   background-color: white;
   height: 38rem;
   border-radius: 1.1875rem;
-  padding: 0.5rem;
+  padding-bottom: 2.69rem;
+  padding-top: 0.56rem;
 }
 
 .header {
@@ -22,6 +23,9 @@
 
 .categoriesContainer {
     display: flex;
+    border: 1px solid #E7E9EF; 
+    height: 100%;
+    border-left: none;
 }
 
 .categorySidebar {
@@ -29,6 +33,7 @@
     height: 100%;
     display: flex;
     flex-direction: column;
+    border-right: 1px solid #E7E9EF; 
 }
 
 .categoryPreview {
@@ -40,9 +45,20 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: start;
-    gap: 0.75rem;
+    justify-content: space-between;
     padding: 0.5rem;
     cursor: pointer;
     border: 1px solid #E7E9EF; 
+}
+
+.categoryItemWrapper {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.blueParagraph {
+    color: #0A2F83;
+    font-size: 0.875rem;
+    font-weight: 500;
+    padding: 0.69rem;
 }
