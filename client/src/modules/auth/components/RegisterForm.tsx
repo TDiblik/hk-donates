@@ -44,14 +44,13 @@ const RegisterForm = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        individualTitle: formData.individualTitle,
-        individualName: formData.individualFirstName,
-        individualSurname: formData.individualSurname,
-        individualTitleAfterName: formData.individualTitleAfterName,
+        individual_title_before_name: formData.individualTitle,
+        individual_name: formData.individualFirstName,
+        individual_surname: formData.individualSurname,
+        individual_title_after_name: formData.individualTitleAfterName,
         email: formData.email,
         password: formData.password,
         is_company: false,
-        ...data,
       }),
     });
 
