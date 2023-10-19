@@ -1,6 +1,6 @@
 .wrapper {
   background-color: rgba(10, 47, 131, 0.08);
-  background-image: url("D:\hk-donates\client\public\back.svg");
+  background-image: url("http://localhost:3000/assets/back.svg");
   background-repeat: no-repeat;
   background-size: cover;
   display: flex;
