@@ -3,8 +3,8 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  margin: 10px 0; /* Adjust the margin as needed */
-  padding-top: 45px; /* Adjust the padding as needed */
+  margin: 10px 0;
+  padding-top: 45px;
   padding-bottom: 100px;
 }
 
@@ -12,20 +12,20 @@
   padding-right: 100px;
   display: flex;
   align-items: center;
-  margin-right: 20px; /* Adjust the margin as needed */
+  margin-right: 20px;
 }
 
 .boldText {
   font-weight: bold;
-  margin: 0; /* Remove margin here */
+  margin: 0;
   text-align: left;
   padding-bottom: 8px;
 }
 
 .contactInfo {
   text-align: left;
-  display: flex; /* Display "Kontakt" and contact info as a flex container */
-  flex-direction: column; /* Arrange them vertically */
+  display: flex;
+  flex-direction: column;
 }
 
 p {
