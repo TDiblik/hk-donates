@@ -11,7 +11,12 @@ const Navbar = () => {
         <img src="./assets/BiDonateHeart.svg" role="none" alt="" />
         hk-donates
       </div>
-      <Button className={styles.donateButton} colorScheme="red">
+      <Button
+        background={"#C4001F"}
+        _hover={{ background: "#A3001A" }}
+        color={"white"}
+        className={styles.donateButton}
+      >
         Přispět <img src="./assets/BsHeartFill.svg" role="none" alt="" />
       </Button>
     </div>
