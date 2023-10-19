@@ -29,7 +29,7 @@ const LoginForm = () => {
 
     if (res.ok) {
       set_user(await res.json());
-      navigate("/donate");
+      navigate("/");
     } else {
       alert("Login failed.");
     }

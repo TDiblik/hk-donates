@@ -74,7 +74,7 @@ const RegisterForm = () => {
     });
     if (login_res.ok) {
       set_user(await login_res.json());
-      navigate("/");
+      navigate("/donate");
     } else {
       alert("Login failed.");
     }
