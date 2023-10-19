@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button, Radio, RadioGroup, Stack } from "@chakra-ui/react";
 import TextField from "./TextField";
-import { RegisterProps } from "./types";
+import { LoginProps, RegisterProps } from "./types";
 
 import styles from "./LoginForm.module.css";
 
@@ -47,7 +47,7 @@ const LoginForm = () => {
     console.log(res);
   };
 
-  const updateField = (fieldName: keyof RegisterProps, value: any) => {
+  const updateField = (fieldName: keyof LoginProps, value: any) => {
     setFormData((prevState) => ({
       ...prevState,
       [fieldName]: value,
@@ -56,7 +56,7 @@ const LoginForm = () => {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.heading}>Registrace</h1>
+      <h1 className={styles.heading}>Login</h1>
       <div className={styles.content}>
         <RadioGroup onChange={setRadioValue} value={radioValue}>
           <Stack direction="row">
@@ -65,32 +65,6 @@ const LoginForm = () => {
           </Stack>
         </RadioGroup>
         <form>
-          <div className={styles.horizontalFormItem}>
-            <TextField
-              placeholder="Titul"
-              value={formData.individualTitle}
-              setValue={(value) => updateField("individualTitle", value)}
-            />
-            <TextField
-              placeholder="Jméno"
-              value={formData.individualFirstName}
-              setValue={(value) => updateField("individualFirstName", value)}
-            />
-          </div>
-          <div className={styles.horizontalFormItem}>
-            <TextField
-              placeholder="Příjmení"
-              value={formData.individualSurname}
-              setValue={(value) => updateField("individualSurname", value)}
-            />
-            <TextField
-              placeholder="Titul"
-              value={formData.individualTitleAfterName}
-              setValue={(value) =>
-                updateField("individualTitleAfterName", value)
-              }
-            />
-          </div>
           <TextField
             placeholder="Email"
             value={formData.email}
@@ -102,12 +76,6 @@ const LoginForm = () => {
             value={formData.password}
             setValue={(value) => updateField("password", value)}
           />
-          <TextField
-            placeholder="Heslo znovu"
-            type="password"
-            value={formData.passwordCheck}
-            setValue={(value) => updateField("passwordCheck", value)}
-          />
           <div className={styles.formFooter}>
             <Button onClick={handleSubmit} variant="outline">
               Zpět
@@ -118,7 +86,7 @@ const LoginForm = () => {
               color="white"
               onClick={handleSubmit}
             >
-              Registrovat
+              Přihlásit se
             </Button>
           </div>
         </form>

@@ -9,3 +9,8 @@ export interface RegisterProps {
   individualSurname: string;
   individualTitleAfterName: string;
 }
+
+export interface LoginProps {
+  email: string;
+  password: string;
+}
