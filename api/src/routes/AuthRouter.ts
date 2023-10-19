@@ -53,13 +53,7 @@ router.post("/auth/register", validate_req_schema(login_req_schema), async (req,
       msg: "company name and ico must be filled in",
     });
   }
-  if (
-    !is_company &&
-    (individual_title_before_name == null ||
-      individual_name == null ||
-      individual_surname == null ||
-      individual_title_after_name == null)
-  ) {
+  if (!is_company && (individual_name == null || individual_surname == null)) {
     return res.status(400).send({
       msg: "all individual info must be filled in",
     });

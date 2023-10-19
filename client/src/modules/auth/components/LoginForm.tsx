@@ -2,45 +2,27 @@ import { useState } from "react";
 import { Button, Radio, RadioGroup, Stack } from "@chakra-ui/react";
 import TextField from "./TextField";
 import { LoginProps, RegisterProps } from "./types";
+import { useNavigate } from "react-router-dom";
 
 import styles from "./LoginForm.module.css";
 
 const LoginForm = () => {
-  const [formData, setFormData] = useState<RegisterProps>({
+  const [formData, setFormData] = useState<LoginProps>({
     email: "",
     password: "",
-    passwordCheck: "",
-    individualTitle: "",
-    individualFirstName: "",
-    individualSurname: "",
-    individualTitleAfterName: "",
-    companyName: "",
-    companyIco: "",
   });
-  const [radioValue, setRadioValue] = useState<string>("1");
 
   const handleSubmit = async () => {
     if (!formData) return;
 
-    const data =
-      radioValue === "1"
-        ? {
-            individualTitle: formData.individualTitle,
-            individualName: formData.individualFirstName,
-            individualSurname: formData.individualSurname,
-            individualTitleAfterName: formData.individualTitleAfterName,
-          }
-        : {
-            companyName: formData.companyName,
-            companyIco: formData.companyIco,
-          };
-
     const res = fetch("/api/v1/public/auth/login", {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
         email: formData.email,
         password: formData.password,
-        ...data,
       }),
     });
 
@@ -54,16 +36,12 @@ const LoginForm = () => {
     }));
   };
 
+  const navigate = useNavigate();
+
   return (
     <div className={styles.container}>
       <h1 className={styles.heading}>Login</h1>
       <div className={styles.content}>
-        <RadioGroup onChange={setRadioValue} value={radioValue}>
-          <Stack direction="row">
-            <Radio value="1">Jednotlivec</Radio>
-            <Radio value="2">Firma</Radio>
-          </Stack>
-        </RadioGroup>
         <form>
           <TextField
             placeholder="Email"
@@ -77,7 +55,7 @@ const LoginForm = () => {
             setValue={(value) => updateField("password", value)}
           />
           <div className={styles.formFooter}>
-            <Button onClick={handleSubmit} variant="outline">
+            <Button onClick={() => navigate("/")} variant="outline">
               Zpět
             </Button>
             <Button
