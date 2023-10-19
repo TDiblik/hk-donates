@@ -15,6 +15,7 @@ export async function db_init() {
 
   await db.exec("PRAGMA foreign_keys = ON;");
 
+  await db.exec(`drop table if exists donations;`);
   await db.exec(`drop table if exists users;`);
   await db.exec(`drop table if exists collections;`);
   await db.exec(`drop table if exists collection_type;`);
@@ -86,7 +87,6 @@ export async function db_init() {
             kategorie INTEGER,
             FOREIGN KEY (kategorie) REFERENCES collection_type (id)
         );`);
-
   const collections = JSON.parse(fs.readFileSync("./connections_base.json", "utf8"));
   for (const collection of collections.features) {
     let command =
@@ -97,4 +97,20 @@ export async function db_init() {
     command += ")";
     await db.exec(command);
   }
+
+  await db.exec(`
+    CREATE TABLE donations (
+        id INTEGER PRIMARY KEY,
+        donator_id INTEGER,
+        kategories TEXT,
+        money_sent REAL,
+        sent_at DATETIME NOT NULL,
+        FOREIGN KEY (donator_id) REFERENCES users(id)
+    );`);
+  await db.exec(
+    `insert into donations (donator_id, kategories, money_sent, sent_at) values (1, '3,4,5', 50000, DATETIME('2023-10-10 00:00:00'))`
+  );
+  await db.exec(
+    `insert into donations (donator_id, kategories, money_sent, sent_at) values (1, '3,4,5', 750000, DATETIME('2023-11-10 00:00:00'))`
+  );
 }

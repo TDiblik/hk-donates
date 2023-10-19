@@ -6,6 +6,7 @@ import {AuthRouter} from "./routes/AuthRouter";
 import path from "path";
 import {db_init} from "./utils/db";
 import {CollectionsRouter} from "./routes/CollectionsRouter";
+import {DonationRouter} from "./routes/DonationRouter";
 
 const app = express();
 
@@ -42,6 +43,7 @@ if (!IS_PRODUCTION) {
 const v1_router_public = express.Router();
 v1_router_public.use(AuthRouter);
 v1_router_public.use(CollectionsRouter);
+v1_router_public.use(DonationRouter);
 app.use("/api/v1/public/", v1_router_public);
 
 // todo: all of these routes should be behind auth (will do after hackathon) eq: v1_router_authed.use(authenticate_token);
