@@ -3,8 +3,8 @@ import dotenv from "dotenv";
 import bodyParser from "body-parser";
 import helmet from "helmet";
 import {AuthRouter} from "./routes/AuthRouter";
-// import {TaskRouter} from "./routes/TaskRouter";
 import path from "path";
+import {db_init} from "./utils/db";
 
 const app = express();
 
@@ -12,12 +12,11 @@ const app = express();
 dotenv.config();
 export const WEB_PORT = process.env.WEB_PORT!;
 export const IS_PRODUCTION = process.env.NODE_ENV! == "production";
-export const DB_CONNECTION_STRING = process.env.DB_CONNECTION_STRING!;
-export const JWT_TOKEN_SECRET = process.env.JWT_TOKEN_SECRET!;
 
 // Config
 app.use(bodyParser.json());
 app.use(helmet());
+db_init();
 
 if (!IS_PRODUCTION) {
   app.get("/", (req, res) => {
