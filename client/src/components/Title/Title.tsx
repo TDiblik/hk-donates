@@ -1,13 +1,12 @@
 import { ReactNode } from "react";
-
-import styles from "./Title.module.css";
+import { Heading } from "@chakra-ui/react";
 
 interface Props {
   children: ReactNode;
 }
 
 const Title = (props: Props) => {
-  return <h1 className={styles.title}>{props.children}</h1>;
+  return <Heading size="2xl">{props.children}</Heading>;
 };
 
 export default Title;
