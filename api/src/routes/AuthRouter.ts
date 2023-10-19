@@ -89,10 +89,10 @@ router.post("/auth/register", validate_req_schema(login_req_schema), async (req,
         $email: email,
         $password: password,
         $is_company: is_company,
-        $individual_title_before_name: individual_title_before_name,
+        $individual_title_before_name: individual_title_before_name ?? "",
         $individual_name: individual_name,
         $individual_surname: individual_surname,
-        $individual_title_after_name: individual_title_after_name,
+        $individual_title_after_name: individual_title_after_name ?? "",
       }
     );
     success = answ.lastID != null;

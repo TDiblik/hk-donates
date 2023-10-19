@@ -3,11 +3,25 @@ const db = new sqlite3.Database("./db.sqlite");
 import {open} from "sqlite";
 import fs from "fs";
 
-export function db_init() {
-  db.serialize(() => {
-    db.run(`
-        CREATE TABLE IF NOT EXISTS users (
-           id INTEGER PRIMARY KEY AUTOINCREMENT,
+export const get_db_conn = async () =>
+  await open({
+    filename: "./db.sqlite",
+    driver: sqlite3.Database,
+  });
+
+export async function db_init() {
+  const db = await get_db_conn();
+  db.on("error", (err) => console.log(err));
+
+  await db.exec("PRAGMA foreign_keys = ON;");
+
+  await db.exec(`drop table if exists users;`);
+  await db.exec(`drop table if exists collections;`);
+  await db.exec(`drop table if exists collection_type;`);
+
+  await db.exec(`
+        CREATE TABLE users (
+           id INTEGER PRIMARY KEY,
            email TEXT NOT NULL,
            password TEXT NOT NULL,
            is_company BOOLEAN NOT NULL,
@@ -18,35 +32,34 @@ export function db_init() {
            company_name TEXT,
            company_ico TEXT
         );`);
-    db.run(`delete from users;`);
-    db.run(`
+  await db.exec(`
         insert into users (email, password, is_company, company_name, company_ico) 
         values ('firma@email.cz', 'firma', true, 'Legit firma', '12134')
         `);
-    db.run(`
+  await db.exec(`
         insert into users (email, password, is_company, individual_title_before_name, individual_name, individual_surname, individual_title_after_name) 
         values ('individual@email.cz', 'firma', false, 'Ing.', 'František', 'Zelený', '')
         `);
 
-    db.run(`
-        CREATE TABLE IF NOT EXISTS collection_type (
+  await db.exec(`
+        CREATE TABLE collection_type (
             id INTEGER PRIMARY KEY,
             name TEXT NOT NULL UNIQUE
         );`);
-    db.run(`delete from collection_type`);
-    db.run(`insert into collection_type (name) values ('charita')`);
-    db.run(`insert into collection_type (name) values ('socialni_zarizeni')`);
-    db.run(`insert into collection_type (name) values ('priroda')`);
-    db.run(`insert into collection_type (name) values ('zvirata')`);
-    db.run(`insert into collection_type (name) values ('kultura')`);
+  await db.exec(`insert into collection_type (name) values ('charita');`);
+  await db.exec(`insert into collection_type (name) values ('socialni_zarizeni');`);
+  await db.exec(`insert into collection_type (name) values ('priroda');`);
+  await db.exec(`insert into collection_type (name) values ('zvirata');`);
+  await db.exec(`insert into collection_type (name) values ('kultura');`);
+  await db.exec(`insert into collection_type (name) values ('zivotni_prostredi');`);
 
-    db.run(`
-        CREATE TABLE IF NOT EXISTS collections (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
+  await db.exec(`
+        CREATE TABLE collections (
+            id INTEGER PRIMARY KEY,
             nazev TEXT,
             ico TEXT,
             pravni_forma TEXT,
-            místo_konani TEXT,
+            misto_konani TEXT,
             zahajeni TEXT,
             ukonceni TEXT,
             ucel TEXT,
@@ -69,17 +82,18 @@ export function db_init() {
             x REAL,
             y REAL,
             dp_id TEXT,
-            kategorie TEXT
+            kategorie INTEGER,
+            FOREIGN KEY (kategorie) REFERENCES collection_type (id)
         );`);
-    db.run(`delete from collections`);
 
-    const a = JSON.parse(fs.readFileSync("./connections_base.json", "utf8"));
-    console.log(a);
-  });
+  const collections = JSON.parse(fs.readFileSync("./connections_base.json", "utf8"));
+  for (const collection of collections.features) {
+    let command =
+      "insert into collections (nazev, ico, pravni_forma, misto_konani, zahajeni, ukonceni, ucel, cislo_bankovniho_uctu, nazev_vusc, kod_vusc, nazev_okresu, kod_okresu, nazev_orp, kod_orp, nazev_obce, kod_obce, nazev_ulice, cislo_domovni, typ_cisla_domovniho, cislo_orientacni, psc, www, wkt, x, y, dp_id, kategorie) values (";
+
+    const prp = collection.properties;
+    command += `'${prp.nazev}', '${prp.ico}', '${prp.pravni_forma}', '${prp.místo_konani}', '${prp.zahajeni}', '${prp.ukonceni}', '${prp.ucel}', '${prp.cislo_bankovniho_uctu}', '${prp.nazev_vusc}', '${prp.kod_vusc}', '${prp.nazev_okresu}', '${prp.kod_okresu}', '${prp.nazev_orp}', '${prp.kod_orp}', '${prp.nazev_obce}', '${prp.kod_obce}', '${prp.nazev_ulice}', '${prp.cislo_domovni}', '${prp.typ_cisla_domovniho}', '${prp.cislo_orientacni}', '${prp.psc}', '${prp.www}', '${prp.wkt}', '${prp.x}', '${prp.y}', '${prp.dp_id}', (select id from collection_type where name like '${prp.kategorie}')`;
+    command += ")";
+    await db.exec(command);
+  }
 }
-
-export const get_db_conn = async () =>
-  await open({
-    filename: "./db.sqlite",
-    driver: sqlite3.Database,
-  });
