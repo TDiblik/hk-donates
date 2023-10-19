@@ -56,6 +56,12 @@ const LoginForm = () => {
             value={formData.password}
             setValue={(value) => updateField("password", value)}
           />
+          <p style={{ fontSize: "12px", paddingBottom: "10px", textAlign: "center" }}>
+            Nemáte účet?{" "}
+            <span className={styles.fakeLink} onClick={() => navigate("/register")}>
+              Zaregistrujte se.
+            </span>
+          </p>
           <div className={styles.formFooter}>
             <Button onClick={() => navigate("/")} variant="outline">
               Zpět

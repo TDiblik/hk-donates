@@ -53,3 +53,14 @@
   border-radius: 0.375rem;
   background: #0a2f83;
 }
+
+.fakeLink {
+  text-decoration: underline;
+  color: #0a2f83;
+  cursor: pointer;
+}
+
+.fakeLink:hover {
+  text-decoration: none;
+  color: #011648;
+}
