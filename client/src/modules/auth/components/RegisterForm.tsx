@@ -5,6 +5,7 @@ import { RegisterProps } from "./types";
 import { useNavigate } from "react-router-dom";
 
 import styles from "./LoginForm.module.css";
+import { set_user } from "../../../utils";
 
 const RegisterForm = () => {
   const [formData, setFormData] = useState<RegisterProps>({
@@ -23,27 +24,9 @@ const RegisterForm = () => {
   const handleSubmit = async () => {
     if (!formData) return;
 
-    const data =
-      radioValue === "1"
-        ? {
-            individualTitle: formData.individualTitle,
-            individualName: formData.individualFirstName,
-            individualSurname: formData.individualSurname,
-            individualTitleAfterName: formData.individualTitleAfterName,
-            email: formData.email,
-            password: formData.password,
-            passwordCheck: formData.passwordCheck,
-          }
-        : {
-            companyName: formData.companyName,
-            companyIco: formData.companyIco,
-            email: formData.email,
-            password: formData.password,
-            passwordCheck: formData.passwordCheck,
-          };
-
+    let reg_res;
     if (radioValue === "1") {
-      const res = fetch("/api/v1/public/auth/register", {
+      reg_res = await fetch("/api/v1/public/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -59,7 +42,7 @@ const RegisterForm = () => {
         }),
       });
     } else {
-      const res = fetch("/api/v1/public/auth/register", {
+      reg_res = await fetch("/api/v1/public/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -72,6 +55,28 @@ const RegisterForm = () => {
           is_company: true,
         }),
       });
+    }
+    if (reg_res.status !== 201) {
+      console.log(reg_res);
+      alert("Uživatel již existuje (nebo došlo k jiné chybě lol)");
+      return;
+    }
+
+    const login_res = await fetch("/api/v1/public/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: formData.email,
+        password: formData.password,
+      }),
+    });
+    if (login_res.ok) {
+      set_user(await login_res.json());
+      navigate("/");
+    } else {
+      alert("Login failed.");
     }
   };
 
@@ -108,9 +113,7 @@ const RegisterForm = () => {
                 <TextField
                   placeholder="Jméno"
                   value={formData.individualFirstName}
-                  setValue={(value) =>
-                    updateField("individualFirstName", value)
-                  }
+                  setValue={(value) => updateField("individualFirstName", value)}
                 />
               </div>
               <div className={styles.horizontalFormItem}>
@@ -122,9 +125,7 @@ const RegisterForm = () => {
                 <TextField
                   placeholder="Titul"
                   value={formData.individualTitleAfterName}
-                  setValue={(value) =>
-                    updateField("individualTitleAfterName", value)
-                  }
+                  setValue={(value) => updateField("individualTitleAfterName", value)}
                 />
               </div>
             </>
@@ -144,11 +145,7 @@ const RegisterForm = () => {
               </div>
             </>
           )}
-          <TextField
-            placeholder="Email"
-            value={formData.email}
-            setValue={(value) => updateField("email", value)}
-          />
+          <TextField placeholder="Email" value={formData.email} setValue={(value) => updateField("email", value)} />
           <TextField
             placeholder="Heslo"
             type="password"
@@ -165,12 +162,7 @@ const RegisterForm = () => {
             <Button onClick={() => navigate("/")} variant="outline">
               Zpět
             </Button>
-            <Button
-              className={styles.actionButton}
-              background="#0A2F83"
-              color="white"
-              onClick={handleSubmit}
-            >
+            <Button className={styles.actionButton} background="#0A2F83" color="white" onClick={handleSubmit}>
               Registrovat
             </Button>
           </div>

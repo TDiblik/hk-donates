@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { Button, Radio, RadioGroup, Stack } from "@chakra-ui/react";
+import { Button } from "@chakra-ui/react";
 import TextField from "./TextField";
-import { LoginProps, RegisterProps } from "./types";
+import { LoginProps } from "./types";
 import { useNavigate } from "react-router-dom";
 
 import styles from "./LoginForm.module.css";
+import { set_user } from "../../../utils";
 
 const LoginForm = () => {
   const [formData, setFormData] = useState<LoginProps>({
@@ -15,7 +16,7 @@ const LoginForm = () => {
   const handleSubmit = async () => {
     if (!formData) return;
 
-    const res = fetch("/api/v1/public/auth/login", {
+    const res = await fetch("/api/v1/public/auth/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -26,7 +27,12 @@ const LoginForm = () => {
       }),
     });
 
-    console.log(res);
+    if (res.ok) {
+      set_user(await res.json());
+      navigate("/");
+    } else {
+      alert("Login failed.");
+    }
   };
 
   const updateField = (fieldName: keyof LoginProps, value: any) => {
@@ -43,11 +49,7 @@ const LoginForm = () => {
       <h1 className={styles.heading}>Login</h1>
       <div className={styles.content}>
         <form>
-          <TextField
-            placeholder="Email"
-            value={formData.email}
-            setValue={(value) => updateField("email", value)}
-          />
+          <TextField placeholder="Email" value={formData.email} setValue={(value) => updateField("email", value)} />
           <TextField
             placeholder="Heslo"
             type="password"
@@ -58,12 +60,7 @@ const LoginForm = () => {
             <Button onClick={() => navigate("/")} variant="outline">
               Zpět
             </Button>
-            <Button
-              className={styles.actionButton}
-              background="#0A2F83"
-              color="white"
-              onClick={handleSubmit}
-            >
+            <Button className={styles.actionButton} background="#0A2F83" color="white" onClick={handleSubmit}>
               Přihlásit se
             </Button>
           </div>

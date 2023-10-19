@@ -34,11 +34,11 @@ export async function db_init() {
         );`);
   await db.exec(`
         insert into users (email, password, is_company, company_name, company_ico) 
-        values ('firma@email.cz', 'firma', true, 'Legit firma', '12134')
+        values ('firma@email.cz', 'heslo', true, 'Legit firma', '12134')
         `);
   await db.exec(`
         insert into users (email, password, is_company, individual_title_before_name, individual_name, individual_surname, individual_title_after_name) 
-        values ('individual@email.cz', 'firma', false, 'Ing.', 'František', 'Zelený', '')
+        values ('individual@email.cz', 'heslo', false, 'Ing.', 'František', 'Zelený', '')
         `);
 
   await db.exec(`

@@ -21,7 +21,7 @@ const Navbar = () => {
           className={styles.donateButton}
           rightIcon={<img src="./assets/BsHeartFill.svg" role="none" alt="" />}
         >
-          Actions
+          Přispět
         </MenuButton>
         <MenuList>
           <MenuItem _hover={{ background: "#C4001F", color: "#fff" }} onClick={() => navigate("/login")}>
