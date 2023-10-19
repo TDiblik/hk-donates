@@ -10,12 +10,8 @@
   padding: 2.2rem 0 2.2rem 0;
   gap: 1.25rem;
 }
-/* .radioItems {
-  display: flex;
-  justify-content: space-between;
-} */
 
-.heading {
+flexCard .heading {
   font-size: 1.25rem;
   font-weight: 700;
 }
