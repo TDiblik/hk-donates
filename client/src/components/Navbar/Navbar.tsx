@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { Button } from "@chakra-ui/react";
+import { Button, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
 import styles from "./Navbar.module.css";
 
 const Navbar = () => {
@@ -11,14 +11,27 @@ const Navbar = () => {
         <img src="./assets/BiDonateHeart.svg" role="none" alt="" />
         hk-donates
       </div>
-      <Button
-        background={"#C4001F"}
-        _hover={{ background: "#A3001A" }}
-        color={"white"}
-        className={styles.donateButton}
-      >
-        Přispět <img src="./assets/BsHeartFill.svg" role="none" alt="" />
-      </Button>
+      <Menu>
+        <MenuButton
+          as={Button}
+          background={"#C4001F"}
+          _active={{ background: "#A3001A" }}
+          _hover={{ background: "#A3001A" }}
+          color={"white"}
+          className={styles.donateButton}
+          rightIcon={<img src="./assets/BsHeartFill.svg" role="none" alt="" />}
+        >
+          Actions
+        </MenuButton>
+        <MenuList>
+          <MenuItem _hover={{ background: "#C4001F", color: "#fff" }} onClick={() => navigate("/login")}>
+            Login
+          </MenuItem>
+          <MenuItem _hover={{ background: "#C4001F", color: "#fff" }} onClick={() => navigate("/register")}>
+            Register
+          </MenuItem>
+        </MenuList>
+      </Menu>
     </div>
   );
 };
