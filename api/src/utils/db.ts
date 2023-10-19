@@ -44,14 +44,15 @@ export async function db_init() {
   await db.exec(`
         CREATE TABLE collection_type (
             id INTEGER PRIMARY KEY,
+            linker_name TEXT NOT NULL UNIQUE,
             name TEXT NOT NULL UNIQUE
         );`);
-  await db.exec(`insert into collection_type (name) values ('charita');`);
-  await db.exec(`insert into collection_type (name) values ('socialni_zarizeni');`);
-  await db.exec(`insert into collection_type (name) values ('priroda');`);
-  await db.exec(`insert into collection_type (name) values ('zvirata');`);
-  await db.exec(`insert into collection_type (name) values ('kultura');`);
-  await db.exec(`insert into collection_type (name) values ('zivotni_prostredi');`);
+  await db.exec(`insert into collection_type (name, linker_name) values ('Charita', 'charita');`);
+  await db.exec(`insert into collection_type (name, linker_name) values ('Sociální zařízení', 'socialni_zarizeni');`);
+  await db.exec(`insert into collection_type (name, linker_name) values ('Příroda', 'priroda');`);
+  await db.exec(`insert into collection_type (name, linker_name) values ('Zvířata', 'zvirata');`);
+  await db.exec(`insert into collection_type (name, linker_name) values ('Kultura', 'kultura');`);
+  await db.exec(`insert into collection_type (name, linker_name) values ('Životní prostředí', 'zivotni_prostredi');`);
 
   await db.exec(`
         CREATE TABLE collections (
@@ -92,7 +93,7 @@ export async function db_init() {
       "insert into collections (nazev, ico, pravni_forma, misto_konani, zahajeni, ukonceni, ucel, cislo_bankovniho_uctu, nazev_vusc, kod_vusc, nazev_okresu, kod_okresu, nazev_orp, kod_orp, nazev_obce, kod_obce, nazev_ulice, cislo_domovni, typ_cisla_domovniho, cislo_orientacni, psc, www, wkt, x, y, dp_id, kategorie) values (";
 
     const prp = collection.properties;
-    command += `'${prp.nazev}', '${prp.ico}', '${prp.pravni_forma}', '${prp.místo_konani}', '${prp.zahajeni}', '${prp.ukonceni}', '${prp.ucel}', '${prp.cislo_bankovniho_uctu}', '${prp.nazev_vusc}', '${prp.kod_vusc}', '${prp.nazev_okresu}', '${prp.kod_okresu}', '${prp.nazev_orp}', '${prp.kod_orp}', '${prp.nazev_obce}', '${prp.kod_obce}', '${prp.nazev_ulice}', '${prp.cislo_domovni}', '${prp.typ_cisla_domovniho}', '${prp.cislo_orientacni}', '${prp.psc}', '${prp.www}', '${prp.wkt}', '${prp.x}', '${prp.y}', '${prp.dp_id}', (select id from collection_type where name like '${prp.kategorie}')`;
+    command += `'${prp.nazev}', '${prp.ico}', '${prp.pravni_forma}', '${prp.místo_konani}', '${prp.zahajeni}', '${prp.ukonceni}', '${prp.ucel}', '${prp.cislo_bankovniho_uctu}', '${prp.nazev_vusc}', '${prp.kod_vusc}', '${prp.nazev_okresu}', '${prp.kod_okresu}', '${prp.nazev_orp}', '${prp.kod_orp}', '${prp.nazev_obce}', '${prp.kod_obce}', '${prp.nazev_ulice}', '${prp.cislo_domovni}', '${prp.typ_cisla_domovniho}', '${prp.cislo_orientacni}', '${prp.psc}', '${prp.www}', '${prp.wkt}', '${prp.x}', '${prp.y}', '${prp.dp_id}', (select id from collection_type where linker_name like '${prp.kategorie}')`;
     command += ")";
     await db.exec(command);
   }
