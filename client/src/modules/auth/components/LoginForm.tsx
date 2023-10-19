@@ -17,30 +17,15 @@ const LoginForm = () => {
     companyName: "",
     companyIco: "",
   });
-  const [radioValue, setRadioValue] = useState<string>("1");
 
   const handleSubmit = async () => {
     if (!formData) return;
-
-    const data =
-      radioValue === "1"
-        ? {
-            individualTitle: formData.individualTitle,
-            individualName: formData.individualFirstName,
-            individualSurname: formData.individualSurname,
-            individualTitleAfterName: formData.individualTitleAfterName,
-          }
-        : {
-            companyName: formData.companyName,
-            companyIco: formData.companyIco,
-          };
 
     const res = fetch("/api/v1/public/auth/login", {
       method: "POST",
       body: JSON.stringify({
         email: formData.email,
         password: formData.password,
-        ...data,
       }),
     });
 
@@ -58,12 +43,6 @@ const LoginForm = () => {
     <div className={styles.container}>
       <h1 className={styles.heading}>Login</h1>
       <div className={styles.content}>
-        <RadioGroup onChange={setRadioValue} value={radioValue}>
-          <Stack direction="row">
-            <Radio value="1">Jednotlivec</Radio>
-            <Radio value="2">Firma</Radio>
-          </Stack>
-        </RadioGroup>
         <form>
           <TextField
             placeholder="Email"
