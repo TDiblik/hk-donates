@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button, Radio, RadioGroup, Stack } from "@chakra-ui/react";
 import TextField from "./TextField";
 import { RegisterProps } from "./types";
+import { useNavigate } from "react-router-dom";
 
 import styles from "./LoginForm.module.css";
 
@@ -81,6 +82,8 @@ const RegisterForm = () => {
     }));
   };
 
+  const navigate = useNavigate();
+
   return (
     <div className={styles.container}>
       <h1 className={styles.heading}>Registrace</h1>
@@ -159,7 +162,7 @@ const RegisterForm = () => {
             setValue={(value) => updateField("passwordCheck", value)}
           />
           <div className={styles.formFooter}>
-            <Button onClick={handleSubmit} variant="outline">
+            <Button onClick={() => navigate("/")} variant="outline">
               Zpět
             </Button>
             <Button
