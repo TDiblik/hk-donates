@@ -29,17 +29,28 @@ const RegisterForm = () => {
             individualName: formData.individualFirstName,
             individualSurname: formData.individualSurname,
             individualTitleAfterName: formData.individualTitleAfterName,
+            email: formData.email,
+            password: formData.password,
+            passwordCheck: formData.passwordCheck,
           }
         : {
             companyName: formData.companyName,
             companyIco: formData.companyIco,
           };
 
-    const res = fetch("/api/v1/public/auth/login", {
+    const res = fetch("/api/v1/public/auth/register", {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
+        individualTitle: formData.individualTitle,
+        individualName: formData.individualFirstName,
+        individualSurname: formData.individualSurname,
+        individualTitleAfterName: formData.individualTitleAfterName,
         email: formData.email,
         password: formData.password,
+        is_company: false,
         ...data,
       }),
     });
