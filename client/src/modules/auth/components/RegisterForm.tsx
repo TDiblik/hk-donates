@@ -36,25 +36,42 @@ const RegisterForm = () => {
         : {
             companyName: formData.companyName,
             companyIco: formData.companyIco,
+            email: formData.email,
+            password: formData.password,
+            passwordCheck: formData.passwordCheck,
           };
 
-    const res = fetch("/api/v1/public/auth/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        individual_title_before_name: formData.individualTitle,
-        individual_name: formData.individualFirstName,
-        individual_surname: formData.individualSurname,
-        individual_title_after_name: formData.individualTitleAfterName,
-        email: formData.email,
-        password: formData.password,
-        is_company: false,
-      }),
-    });
-
-    console.log(res);
+    if (radioValue === "1") {
+      const res = fetch("/api/v1/public/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          individual_title_before_name: formData.individualTitle,
+          individual_name: formData.individualFirstName,
+          individual_surname: formData.individualSurname,
+          individual_title_after_name: formData.individualTitleAfterName,
+          email: formData.email,
+          password: formData.password,
+          is_company: false,
+        }),
+      });
+    } else {
+      const res = fetch("/api/v1/public/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          company_name: formData.companyName,
+          company_ico: formData.companyIco,
+          email: formData.email,
+          password: formData.password,
+          is_company: true,
+        }),
+      });
+    }
   };
 
   const updateField = (fieldName: keyof RegisterProps, value: any) => {
@@ -68,39 +85,62 @@ const RegisterForm = () => {
     <div className={styles.container}>
       <h1 className={styles.heading}>Registrace</h1>
       <div className={styles.content}>
-        <RadioGroup onChange={setRadioValue} value={radioValue}>
-          <Stack direction="row">
-            <Radio value="1">Jednotlivec</Radio>
-            <Radio value="2">Firma</Radio>
-          </Stack>
-        </RadioGroup>
+        <div className={styles.radioItems}>
+          <RadioGroup onChange={setRadioValue} value={radioValue}>
+            <Stack direction="row" justify="center" gap={120}>
+              <Radio value="1">Jednotlivec</Radio>
+              <Radio value="2">Firma</Radio>
+            </Stack>
+          </RadioGroup>
+        </div>
         <form>
-          <div className={styles.horizontalFormItem}>
-            <TextField
-              placeholder="Titul"
-              value={formData.individualTitle}
-              setValue={(value) => updateField("individualTitle", value)}
-            />
-            <TextField
-              placeholder="Jméno"
-              value={formData.individualFirstName}
-              setValue={(value) => updateField("individualFirstName", value)}
-            />
-          </div>
-          <div className={styles.horizontalFormItem}>
-            <TextField
-              placeholder="Příjmení"
-              value={formData.individualSurname}
-              setValue={(value) => updateField("individualSurname", value)}
-            />
-            <TextField
-              placeholder="Titul"
-              value={formData.individualTitleAfterName}
-              setValue={(value) =>
-                updateField("individualTitleAfterName", value)
-              }
-            />
-          </div>
+          {radioValue === "1" ? (
+            <>
+              <div className={styles.horizontalFormItem}>
+                <TextField
+                  placeholder="Titul"
+                  value={formData.individualTitle}
+                  setValue={(value) => updateField("individualTitle", value)}
+                />
+                <TextField
+                  placeholder="Jméno"
+                  value={formData.individualFirstName}
+                  setValue={(value) =>
+                    updateField("individualFirstName", value)
+                  }
+                />
+              </div>
+              <div className={styles.horizontalFormItem}>
+                <TextField
+                  placeholder="Příjmení"
+                  value={formData.individualSurname}
+                  setValue={(value) => updateField("individualSurname", value)}
+                />
+                <TextField
+                  placeholder="Titul"
+                  value={formData.individualTitleAfterName}
+                  setValue={(value) =>
+                    updateField("individualTitleAfterName", value)
+                  }
+                />
+              </div>
+            </>
+          ) : (
+            <>
+              <div className={styles.horizontalFormItem}>
+                <TextField
+                  placeholder="Název firmy"
+                  value={formData.companyName}
+                  setValue={(value) => updateField("companyName", value)}
+                />
+                <TextField
+                  placeholder="IČO firmy"
+                  value={formData.companyIco}
+                  setValue={(value) => updateField("companyIco", value)}
+                />
+              </div>
+            </>
+          )}
           <TextField
             placeholder="Email"
             value={formData.email}
