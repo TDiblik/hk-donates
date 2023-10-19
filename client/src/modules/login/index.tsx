@@ -1,9 +1,9 @@
 import LoginForm from "./components/LoginForm";
-import "./index.css";
+import styles from "./index.module.css";
 
 const Login = () => {
   return (
-    <div>
+    <div className={styles.wrapper}>
       <LoginForm />
     </div>
   );

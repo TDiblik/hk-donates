@@ -4,8 +4,6 @@ import ReactDOM from "react-dom/client";
 import RouteHandler from "./RouteHandler";
 import theme from "./theme";
 
-import "./global.css";
-
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
