@@ -1,6 +1,6 @@
 # HK Donates
 
-Developed by [Me](https://github.com/TDiblik), [Michal Vaniš](https://github.com/ZirixCZ/), [Daniel Beneš](https://github.com/Danny-Benny) and [Jan Skládal](https://github.com/JanSkla)
+Developed by [Me](https://github.com/TDiblik), [Michal Vaniš](https://github.com/ZirixCZ/), [Daniel Beneš](https://github.com/Danny-Benny) and [Jan Skládal](https://github.com/JanSkla) on the [UHK hackathon 2023](https://www.datakhk.cz/pages/hackathon-novinky-2023)
 
 ## Showcase
 
